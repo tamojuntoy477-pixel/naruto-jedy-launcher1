@@ -1,23 +1,22 @@
 <!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Naruto Jedy</title>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Naruto Jedy Launcher</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#090b12;color:#fff;font-family:Arial,sans-serif}
-main{min-height:100vh;padding:28px 20px;background:radial-gradient(circle at top,#332000,#090b12 55%)}
-.logo{font-size:32px;font-weight:900}.sub{color:#bbb;margin:5px 0 30px}
-.card{background:#151924;border:1px solid #292e3c;border-radius:20px;padding:20px;margin-bottom:16px}
-.status{display:flex;align-items:center;gap:9px;color:#7dff9a}.dot{width:10px;height:10px;border-radius:50%;background:#46e66d}
-button{width:100%;border:0;border-radius:16px;padding:17px;background:#ff8a00;color:#fff;font-size:20px;font-weight:900}
-.item{padding:13px 0;border-bottom:1px solid #292e3c}.item:last-child{border:0}
-</style></head>
-<body><main>
-<div class="logo">🌀 NARUTO JEDY</div><div class="sub">Launcher Mobile</div>
-<div class="card"><div class="status"><span class="dot"></span> SERVIDOR ONLINE</div><p>👥 Jogadores: <b id="players">--</b></p><button onclick="play()">JOGAR</button></div>
-<div class="card"><h2>📰 Notícias</h2><div class="item">Bem-vindo ao Naruto Jedy!</div><div class="item">Atualizações aparecerão aqui.</div></div>
-<div class="card"><h2>⚙️ Configurações</h2><div class="item">Versão do launcher: 1.0.0</div><div class="item">Mods: aguardando configuração</div></div>
+*{box-sizing:border-box}body{margin:0;background:#080a10;color:#fff;font-family:Arial,sans-serif}main{min-height:100vh;padding:24px 18px;background:radial-gradient(circle at 50% -10%,#553400,#080a10 48%)}
+header{text-align:center;padding:12px 0 22px}.logo{font-size:30px;font-weight:900;letter-spacing:1px}.sub{color:#aeb3c0;margin-top:5px}
+.card{background:#141822cc;border:1px solid #292f3d;border-radius:22px;padding:18px;margin:12px 0;box-shadow:0 8px 25px #0005}.status{display:flex;align-items:center;gap:8px;color:#73ff96;font-weight:bold}.dot{width:10px;height:10px;border-radius:50%;background:#45e66c}
+.stats{display:flex;justify-content:space-between;margin:15px 0;color:#c7cad2}.big{font-size:28px;font-weight:900;color:white}button{width:100%;border:0;border-radius:16px;padding:17px;background:#ff8500;color:white;font-size:20px;font-weight:900;box-shadow:0 5px 0 #9b4e00}button:active{transform:translateY(3px);box-shadow:0 2px 0 #9b4e00}
+.item{padding:13px 0;border-bottom:1px solid #292f3d}.item:last-child{border:0}.tag{font-size:11px;color:#ffae45;font-weight:bold}.small{color:#9da3b0;font-size:13px;margin-top:5px}
+nav{position:sticky;bottom:10px;background:#12151dcc;backdrop-filter:blur(10px);border:1px solid #292f3d;border-radius:18px;padding:8px;display:flex;justify-content:space-around}nav button{background:none;box-shadow:none;padding:9px;font-size:12px;color:#c8ccd5}
+</style></head><body><main>
+<header><div class="logo">🌀 NARUTO JEDY</div><div class="sub">LAUNCHER MOBILE • v1.0</div></header>
+<section class="card"><div class="status"><span class="dot"></span> SERVIDOR ONLINE</div>
+<div class="stats"><span>Jogadores<br><b class="big" id="players">0</b></span><span>Versão<br><b class="big">1.0</b></span></div>
+<button onclick="play()">▶ JOGAR</button></section>
+<section class="card"><h2>📰 Notícias</h2><div class="item"><span class="tag">NOVIDADE</span><br>Bem-vindo ao Naruto Jedy!<div class="small">Confira as novidades do servidor.</div></div><div class="item"><span class="tag">ATUALIZAÇÃO</span><br>Launcher preparado para receber recursos.</div></section>
+<section class="card"><h2>🧩 Recursos</h2><div class="item">📦 Atualizador de arquivos</div><div class="item">🎮 Acesso ao servidor</div><div class="item">👤 Perfil do jogador</div><div class="item">🏆 Ranking</div></section>
+<nav><button onclick="home()">🏠<br>Início</button><button onclick="alert('Em breve: perfil do jogador')">👤<br>Perfil</button><button onclick="alert('Em breve: configurações')">⚙️<br>Config</button></nav>
 </main><script>
-document.getElementById('players').textContent='0';
-function play(){alert('Launcher conectado! Configure o endereço do servidor para liberar o botão JOGAR.');}
+function play(){alert('O launcher está pronto. Falta apenas configurar o IP/porta reais do servidor.');}
+function home(){scrollTo({top:0,behavior:'smooth'});}
 </script></body></html>
