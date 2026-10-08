@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Naruto Jedy</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#090b12;color:#fff;font-family:Arial,sans-serif}
+main{min-height:100vh;padding:28px 20px;background:radial-gradient(circle at top,#332000,#090b12 55%)}
+.logo{font-size:32px;font-weight:900}.sub{color:#bbb;margin:5px 0 30px}
+.card{background:#151924;border:1px solid #292e3c;border-radius:20px;padding:20px;margin-bottom:16px}
+.status{display:flex;align-items:center;gap:9px;color:#7dff9a}.dot{width:10px;height:10px;border-radius:50%;background:#46e66d}
+button{width:100%;border:0;border-radius:16px;padding:17px;background:#ff8a00;color:#fff;font-size:20px;font-weight:900}
+.item{padding:13px 0;border-bottom:1px solid #292e3c}.item:last-child{border:0}
+</style></head>
+<body><main>
+<div class="logo">🌀 NARUTO JEDY</div><div class="sub">Launcher Mobile</div>
+<div class="card"><div class="status"><span class="dot"></span> SERVIDOR ONLINE</div><p>👥 Jogadores: <b id="players">--</b></p><button onclick="play()">JOGAR</button></div>
+<div class="card"><h2>📰 Notícias</h2><div class="item">Bem-vindo ao Naruto Jedy!</div><div class="item">Atualizações aparecerão aqui.</div></div>
+<div class="card"><h2>⚙️ Configurações</h2><div class="item">Versão do launcher: 1.0.0</div><div class="item">Mods: aguardando configuração</div></div>
+</main><script>
+document.getElementById('players').textContent='0';
+function play(){alert('Launcher conectado! Configure o endereço do servidor para liberar o botão JOGAR.');}
+</script></body></html>
