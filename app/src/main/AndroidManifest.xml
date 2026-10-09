@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
     <queries>
-        <package android:name="net.kdt.pojavlaunch"/>
+        <package android:name="git.artdeell.mjlaunch"/>
     </queries>
     <application android:theme="@style/AppTheme" android:label="Naruto Jedy" android:allowBackup="false" android:supportsRtl="true">
         <activity android:name=".MainActivity" android:screenOrientation="portrait" android:exported="true">
