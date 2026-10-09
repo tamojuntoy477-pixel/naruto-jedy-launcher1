@@ -16,8 +16,8 @@ public class MainActivity extends Activity {
     TextView status;
     EditText ipField;
     SharedPreferences prefs;
-    static final String POJAV_PACKAGE = "net.kdt.pojavlaunch";
-    static final String POJAV_URL = "https://github.com/PojavLauncherTeam/PojavLauncher/releases";
+    static final String MJ_PACKAGE = "git.artdeell.mjlaunch";
+    static final String MJ_URL = "https://play.google.com/store/apps/details?id=git.artdeell.mjlaunch";
 
     @Override public void onCreate(Bundle b) {
         super.onCreate(b);
@@ -57,21 +57,25 @@ public class MainActivity extends Activity {
         title.setGravity(Gravity.CENTER);
         root.addView(title);
 
-        TextView sub = text("JAVA MOBILE LAUNCHER • v1.1", 13);
+        TextView sub = text("JAVA MOBILE LAUNCHER • MJ EDITION", 13);
         sub.setGravity(Gravity.CENTER);
         root.addView(sub);
 
-        TextView intro = text("Seu portal para o Naruto Jedy no Minecraft Java.", 16);
+        TextView intro = text("Seu portal ninja para o Minecraft Java no Android.", 16);
         intro.setGravity(Gravity.CENTER);
         root.addView(intro);
 
-        status = text("● JAVA: PRONTO PARA VERIFICAR\nPojavLauncher é necessário para iniciar o Minecraft Java.", 14);
+        status = text("● MJ LAUNCHER: PRONTO PARA VERIFICAR\nInstale o MJ Launcher para abrir o Minecraft Java.", 14);
         status.setTextColor(Color.LTGRAY);
         root.addView(status);
 
         Button play = button("▶  ABRIR MINECRAFT JAVA");
         play.setOnClickListener(v -> openJava());
         root.addView(play);
+
+        Button install = button("⬇  INSTALAR / ABRIR MJ LAUNCHER");
+        install.setOnClickListener(v -> openMjPage());
+        root.addView(install);
 
         Button modHelp = button("🍥  COMO INSTALAR O MOD");
         modHelp.setOnClickListener(v -> showModHelp());
@@ -84,7 +88,7 @@ public class MainActivity extends Activity {
         Button profile = button("👤  PERFIL");
         profile.setOnClickListener(v -> new AlertDialog.Builder(this)
             .setTitle("Perfil Ninja")
-            .setMessage("Jogador: Ninja\nLauncher: Naruto Jedy v1.1\nPlataforma: Minecraft Java via PojavLauncher")
+            .setMessage("Jogador: Ninja\nLauncher: Naruto Jedy • MJ Edition\nPlataforma: Minecraft Java via MJ Launcher")
             .setPositiveButton("OK", null).show());
         root.addView(profile);
 
@@ -93,39 +97,45 @@ public class MainActivity extends Activity {
         root.addView(settings);
 
         root.addView(text("\n📰 ESTADO DO PROJETO", 18));
-        root.addView(text("• Interface do Naruto Jedy\n• Botão para abrir PojavLauncher, se instalado\n• Endereço de servidor guardado no aparelho\n• Guia para instalar mods Java\n\nImportante: este app não contém o Minecraft nem converte automaticamente o addon Bedrock para Java.", 14));
+        root.addView(text("• Interface Naruto Jedy\n• Integração para abrir o MJ Launcher instalado\n• Endereço de servidor guardado no aparelho\n• Guia de instalação de mods Java\n\nImportante: este app é um launcher auxiliar; ele não inclui os arquivos do Minecraft nem instala automaticamente o mod Naruto Jedy.", 14));
 
         setContentView(scroll);
     }
 
     void openJava() {
-        Intent launch = getPackageManager().getLaunchIntentForPackage(POJAV_PACKAGE);
+        Intent launch = getPackageManager().getLaunchIntentForPackage(MJ_PACKAGE);
         if (launch != null) {
             try {
                 startActivity(launch);
             } catch (Exception e) {
-                showPojavMissing();
+                showMjMissing();
             }
         } else {
-            showPojavMissing();
+            showMjMissing();
         }
     }
 
-    void showPojavMissing() {
+    void openMjPage() {
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(MJ_URL)));
+        } catch (Exception ignored) {
+            new AlertDialog.Builder(this).setMessage("Não foi possível abrir a página do MJ Launcher.")
+                .setPositiveButton("OK", null).show();
+        }
+    }
+
+    void showMjMissing() {
         new AlertDialog.Builder(this)
-            .setTitle("PojavLauncher não encontrado")
-            .setMessage("Para jogar Minecraft Java no Android, instale primeiro um launcher Java compatível, como o PojavLauncher, e configure seus arquivos de jogo. O Naruto Jedy Launcher ainda não inclui o motor do Minecraft.")
-            .setPositiveButton("VER PROJETO POJAV", (d, w) -> {
-                try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(POJAV_URL))); }
-                catch (Exception ignored) {}
-            })
+            .setTitle("MJ Launcher não encontrado")
+            .setMessage("Instale o MJ Launcher e configure o Minecraft Java nele. Depois volte aqui e toque em ABRIR MINECRAFT JAVA. Este app não contém o motor do Minecraft.")
+            .setPositiveButton("VER MJ LAUNCHER", (d, w) -> openMjPage())
             .setNegativeButton("OK", null).show();
     }
 
     void showModHelp() {
         new AlertDialog.Builder(this)
             .setTitle("Instalar Naruto Jedy no Java")
-            .setMessage("1. Descubra qual versão do Minecraft Java o mod suporta.\n2. Instale o loader exigido pelo mod (Forge ou Fabric).\n3. Abra essa versão uma vez no PojavLauncher.\n4. Coloque o arquivo .jar do mod na pasta mods da instalação.\n5. Inicie a mesma versão.\n\nO arquivo Njedy.zip enviado parece ser um addon Bedrock; ele não vira um mod Java só mudando a extensão. Precisamos de um mod Java compatível ou adaptar o conteúdo.")
+            .setMessage("1. Confirme a versão do Minecraft exigida pelo mod.\n2. Confirme se ele usa Forge, Fabric ou outro loader.\n3. No MJ Launcher, configure a mesma versão e loader.\n4. Coloque o arquivo .jar compatível na pasta mods dessa instalação.\n5. Inicie o jogo.\n\nAtenção: um addon Bedrock em .zip não vira automaticamente um mod Java. É necessário um mod Java compatível ou uma adaptação do conteúdo.")
             .setPositiveButton("ENTENDI", null).show();
     }
 
@@ -149,7 +159,7 @@ public class MainActivity extends Activity {
                 String address = ipField.getText().toString().trim();
                 prefs.edit().putString("server_address", address).apply();
                 status.setText(address.isEmpty()
-                    ? "● JAVA: PRONTO PARA VERIFICAR\nPojavLauncher é necessário para iniciar o Minecraft Java."
+                    ? "● MJ LAUNCHER: PRONTO PARA VERIFICAR\nInstale o MJ Launcher para abrir o Minecraft Java."
                     : "● SERVIDOR SALVO\n" + address + "\nAbra o Minecraft Java para conectar.");
             })
             .setNegativeButton("CANCELAR", null).show();
