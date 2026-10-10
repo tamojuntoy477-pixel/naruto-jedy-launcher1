@@ -1,0 +1,84 @@
+name: Build Gear Heads Oficina BR APK
+
+on:
+  push:
+    branches: [gear-heads-oficina-br]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Create Android project
+        run: |
+          mkdir -p app/src/main/java/br/com/gearheads/oficinabr app/src/main/assets app/src/main/res/values
+          cat > settings.gradle <<'EOF'
+          pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
+          dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS); repositories { google(); mavenCentral() } }
+          rootProject.name = 'GearHeadsOficinaBR'
+          include ':app'
+          EOF
+          cat > build.gradle <<'EOF'
+          plugins {
+              id 'com.android.application' version '8.7.3' apply false
+          }
+          EOF
+          cat > gradle.properties <<'EOF'
+          org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+          android.useAndroidX=true
+          EOF
+          cat > app/build.gradle <<'EOF'
+          plugins { id 'com.android.application' }
+          android {
+              namespace 'br.com.gearheads.oficinabr'
+              compileSdk 35
+              defaultConfig {
+                  applicationId 'br.com.gearheads.oficinabr'
+                  minSdk 23
+                  targetSdk 28
+                  versionCode 1
+                  versionName '1.0'
+              }
+          }
+          EOF
+          cat > app/src/main/AndroidManifest.xml <<'EOF'
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android"><application android:theme="@style/AppTheme" android:label="Gear Heads BR" android:usesCleartextTraffic="true"><activity android:name=".MainActivity" android:screenOrientation="landscape" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity></application></manifest>
+          EOF
+          cat > app/src/main/res/values/styles.xml <<'EOF'
+          <resources><style name="AppTheme" parent="@android:style/Theme.Material.Light.NoActionBar"><item name="android:fontFamily">sans</item><item name="android:colorAccent">#ff7a18</item><item name="android:statusBarColor">#11151a</item><item name="android:navigationBarColor">#11151a</item><item name="android:windowLightStatusBar">false</item></style></resources>
+          EOF
+          cat > app/src/main/java/br/com/gearheads/oficinabr/MainActivity.java <<'EOF'
+          package br.com.gearheads.oficinabr;
+          import android.app.Activity;
+          import android.os.Bundle;
+          import android.webkit.WebChromeClient;
+          import android.webkit.WebView;
+          import android.webkit.WebSettings;
+          import android.graphics.Color;
+          public class MainActivity extends Activity {
+            @Override public void onCreate(Bundle b) { super.onCreate(b); getWindow().setStatusBarColor(Color.rgb(17,21,26)); getWindow().setNavigationBarColor(Color.rgb(17,21,26)); WebView w=new WebView(this); w.setBackgroundColor(Color.rgb(17,21,26)); WebSettings s=w.getSettings(); s.setJavaScriptEnabled(true); s.setDomStorageEnabled(true); w.setWebChromeClient(new WebChromeClient()); w.loadUrl("file:///android_asset/index.html"); setContentView(w); }
+            @Override public void onBackPressed() { super.onBackPressed(); }
+          }
+          EOF
+          cat > app/src/main/assets/index.html <<'EOF'
+          <!doctype html><html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Gear Heads Oficina BR</title><style>
+          *{box-sizing:border-box}body{margin:0;background:#11151a;color:#f5f5f5;font-family:Arial,sans-serif}header{padding:12px 18px;background:#1a2028;border-bottom:2px solid #ff7a18;display:flex;justify-content:space-between;align-items:center}h1{font-size:20px;margin:0}small{color:#aeb8c4}.tag{color:#ff9b45;font-weight:bold}.layout{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;padding:12px}.scene{background:linear-gradient(#252e39,#151a21);border:1px solid #394553;border-radius:12px;min-height:300px;position:relative;overflow:hidden}.ceiling{height:45px;background:repeating-linear-gradient(90deg,#303a46 0 50px,#202832 50px 100px)}.lift{position:absolute;top:50px;bottom:20px;width:12px;background:#ff7a18;left:14%;box-shadow:260px 0 #ff7a18}.car{position:absolute;top:105px;left:16%;width:68%;height:115px;filter:drop-shadow(0 16px 8px #0009)}.bodycar{position:absolute;bottom:20px;width:100%;height:55px;background:linear-gradient(160deg,#b9c5d0,#566575 50%,#252f3b);border-radius:28px 38px 14px 12px;border-bottom:5px solid #ff7a18}.roof{position:absolute;left:23%;top:5px;width:48%;height:48px;background:linear-gradient(130deg,#657889,#18222c);clip-path:polygon(20% 0,78% 0,100% 100%,0 100%);border-top:3px solid #a9b8c5}.glass{position:absolute;top:12px;left:29%;width:38%;height:28px;background:#17222b;clip-path:polygon(15% 0,78% 0,100% 100%,0 100%)}.wheel{position:absolute;bottom:0;width:45px;height:45px;border-radius:50%;background:radial-gradient(circle,#9da7b0 0 17%,#242a31 19% 40%,#050607 42%);border:4px solid #090b0e}.w1{left:15%}.w2{right:15%}.floor{position:absolute;bottom:0;height:24px;width:100%;background:repeating-linear-gradient(90deg,#333d48 0 40px,#202832 40px 80px)}.panel{background:#1b222b;border:1px solid #34404d;border-radius:12px;padding:14px}.money{font-size:24px;color:#5ee09a;font-weight:bold;margin:6px 0 12px}.stat{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #303945;color:#bdc7d2;font-size:13px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}button{border:0;border-radius:8px;padding:12px 8px;font-weight:bold;background:#303b48;color:#fff;font-size:13px}button.primary{background:#ff7a18;color:#171717}.notice{font-size:12px;color:#aab4bf;margin-top:10px;line-height:1.4}.toast{margin-top:10px;color:#ffb16e;min-height:18px;font-size:12px}@media(max-width:600px){.layout{grid-template-columns:1fr}.scene{min-height:260px}.car{left:17%;width:65%}.lift{box-shadow:190px 0 #ff7a18}h1{font-size:17px}}
+          </style></head><body><header><div><h1>🔧 GEAR HEADS <span class="tag">OFICINA BR</span></h1><small>Simulador de oficina • versão 1.0</small></div><span class="tag">DIA 01</span></header><main class="layout"><section class="scene"><div class="ceiling"></div><div class="lift"></div><div class="car"><div class="roof"></div><div class="glass"></div><div class="bodycar" id="bodycar"></div><div class="wheel w1" id="wheel1"></div><div class="wheel w2" id="wheel2"></div></div><div class="floor"></div></section><section class="panel"><small>CAIXA DA OFICINA</small><div class="money" id="money">R$ 2.500</div><div class="stat"><span>Condição do motor</span><b id="engine">72%</b></div><div class="stat"><span>Suspensão</span><b id="susp">65%</b></div><div class="stat"><span>Pneus</span><b id="tires">Gastos</b></div><div class="stat"><span>Elevador</span><b id="liftstatus">Desligado</b></div><div class="actions"><button class="primary" onclick="lift()">⬆ ELEVADOR</button><button onclick="repair('tires')">◉ TROCAR PNEUS</button><button onclick="repair('engine')">⚙ REVISAR MOTOR</button><button onclick="repair('susp')">🛠 SUSPENSÃO</button><button onclick="paint()">🎨 PINTAR CARRO</button><button onclick="sell()">💵 VENDER SERVIÇO</button></div><div class="toast" id="toast">Bem-vindo! Comece levantando o carro.</div><div class="notice">Faça serviços para ganhar dinheiro e melhorar a oficina. Cada ação altera o estado do carro.</div></section></main><script>
+          let cash=2500,lifted=false,painted=0,done={tires:false,engine:false,susp:false};function say(t){document.getElementById('toast').textContent=t}function refresh(){document.getElementById('money').textContent='R$ '+cash.toLocaleString('pt-BR');document.getElementById('engine').textContent=(done.engine?100:72)+'%';document.getElementById('susp').textContent=(done.susp?100:65)+'%';document.getElementById('tires').textContent=done.tires?'Novos':'Gastos'}function lift(){lifted=!lifted;document.querySelector('.car').style.top=lifted?'70px':'105px';document.getElementById('liftstatus').textContent=lifted?'Ligado':'Desligado';say(lifted?'Elevador levantou o carro.':'Carro baixado com segurança.')}function repair(k){if(!lifted){say('Ligue o elevador primeiro!');return}let cost={tires:300,engine:450,susp:350}[k];if(done[k]){say('Esse serviço já foi feito.');return}if(cash<cost){say('Dinheiro insuficiente para este serviço.');return}cash-=cost;done[k]=true;if(k==='tires'){document.getElementById('wheel1').style.background='radial-gradient(circle,#dce5ed 0 17%,#343c45 19% 40%,#08090a 42%)';document.getElementById('wheel2').style.background='radial-gradient(circle,#dce5ed 0 17%,#343c45 19% 40%,#08090a 42%)'}refresh();say('Serviço concluído: '+({tires:'pneus novos',engine:'motor revisado',susp:'suspensão revisada'}[k])+'.')}function paint(){if(cash<200){say('Precisa de R$ 200 para pintar.');return}cash-=200;painted=(painted+1)%4;document.getElementById('bodycar').style.background=['linear-gradient(160deg,#b9c5d0,#566575 50%,#252f3b)','linear-gradient(160deg,#e64c4c,#8e1717 50%,#3d0c0c)','linear-gradient(160deg,#4f9cf0,#164b8b 50%,#0c203f)','linear-gradient(160deg,#d9d9d9,#777 50%,#242424)'][painted];refresh();say('Pintura personalizada aplicada!')}function sell(){let n=0;if(done.tires)n+=500;if(done.engine)n+=700;if(done.susp)n+=550;if(!n){say('Faça pelo menos um serviço antes de cobrar.');return}cash+=n;done={tires:false,engine:false,susp:false};refresh();say('Cliente pagou R$ '+n+'! Novo carro chegando.')}refresh();
+          </script></body></html>
+          EOF
+          yes | sdkmanager "platforms;android-35" "build-tools;35.0.0"
+          gradle wrapper --gradle-version 8.9
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Gear-Heads-Oficina-BR-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
