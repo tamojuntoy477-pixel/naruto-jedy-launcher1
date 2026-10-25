@@ -3,8 +3,15 @@
     <queries>
         <package android:name="git.artdeell.mjlaunch"/>
     </queries>
-    <application android:theme="@style/AppTheme" android:label="Naruto Jedy" android:allowBackup="false" android:supportsRtl="true">
-        <activity android:name=".MainActivity" android:screenOrientation="portrait" android:exported="true">
+    <application
+        android:theme="@style/AppTheme"
+        android:label="Ninja Shinobi: Legacy"
+        android:allowBackup="false"
+        android:supportsRtl="true">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
