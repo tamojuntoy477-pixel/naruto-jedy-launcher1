@@ -1,19 +1,23 @@
-# Naruto Jedy Launcher 🌀
+# Ninja Shinobi: Legacy Launcher
 
-Launcher auxiliar Android para abrir o MJ Launcher e manter à mão o endereço do servidor Naruto Jedy.
+Android companion launcher for Minecraft Java Edition on mobile.
 
-## Recursos
-- Interface mobile com tema ninja roxo
-- Botão para abrir o MJ Launcher instalado
-- Atalho para a página do MJ Launcher
-- Campo para guardar o endereço do servidor
-- Guia para instalar mods Java
+## Features in this build
+- New dark ninja-themed interface with purple and chakra-cyan accents
+- Detects whether MJ Launcher is installed (where Android package visibility allows)
+- Opens the installed MJ Launcher or its Play Store page
+- Stores a Minecraft Java server address locally and can copy it
+- Stores a local display nickname (does not change Microsoft account identity)
+- Includes a practical guide for installing Java mods
 
-## Limites importantes
-Este aplicativo não inclui os arquivos do Minecraft, não autentica a conta do jogador e não instala automaticamente o mod Naruto Jedy. O mod precisa ser compatível com Minecraft Java e com a versão/loader configurados no MJ Launcher. Um addon Bedrock ZIP não funciona como mod Java apenas por trocar a extensão.
+## Important limits
+This is a companion app, not a replacement Minecraft runtime. It does not bundle Minecraft, authenticate Microsoft accounts, automatically download/install mods, or guarantee Naruto Jedy compatibility. Use a Java mod that matches the Minecraft version and mod loader configured in MJ Launcher. Bedrock add-ons do not become Java mods by renaming files.
 
-## MJ Launcher
-https://play.google.com/store/apps/details?id=git.artdeell.mjlaunch
+## Build APK
+GitHub Actions runs the Android build workflow after a push. Open the repository's **Actions** tab, select the latest successful run, and download its APK artifact. A successful CI run is required before calling the APK tested.
 
-## Build
-O GitHub Actions compila o APK de debug e publica o arquivo como artefato para download.
+## Project
+- Android application ID: `com.narutojedy.launcher` (kept to preserve update compatibility with the existing app)
+- Version: 0.2.0
+- minSdk: 23
+- compileSdk / targetSdk: 35
